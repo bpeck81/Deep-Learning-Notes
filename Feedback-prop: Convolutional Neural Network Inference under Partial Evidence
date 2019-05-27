@@ -1,0 +1,21 @@
+https://arxiv.org/pdf/1710.08049.pdf
+The use of the method proposed is to generate a better list of output predictions when only
+some of the labels are known. So there exists y_known, y_unknown and we want to generate more
+accurate y_unknown.
+The algorithm used operates under the hypothesis that updating intermediate layers of a network
+individually helps generate better y_unknown.
+It seems like what we are doing is updating each layer wrt the input more times than we normally would.
+Whereas for each input we forward and backprop once and the amount of weight change is determined
+by the learning rate, here we tune each layer repeatedly to optimize loss. 
+In essence, this algorithm fine tunes the network better to each input so it can produce more related
+unknown output labels.
+What is the relationship between normal backpropagation with repeating input and this?
+
+The agorithm is essentially for each input, 
+1) make a prediction
+2) compute the loss of the prediction wrt to a layer and propagate it to the layer
+3) repeat from 1 for T time steps
+4) move to a deeper layer and repeat from 1
+The output now has an updated list of y_unknown
+
+So instead of updating every layer for each prediction, we are updating a single layer repeatedly
